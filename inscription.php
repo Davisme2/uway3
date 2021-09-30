@@ -19,46 +19,52 @@ if (!empty($_POST)) {
         $departement = (int) $departement;
         $date_naissance = (String) null;
 
-
+        // vérifications pseudo
         if (empty($pseudo)) {
             $valid = false;
             $err_pseudo = 'Veuillez renseigner ce champs';
         }
 
+        // vérification email
         if (empty($mail)) {
             $valid = false;
             $err_mail = 'Veuillez renseigner ce champs';
         }
 
+        // vérification password
         if (empty($password)) {
             $valid = false;
             $err_password = 'Veuillez renseigner ce champs';
         }
 
+        // vérification jour
         $verif_jour = array(1, 2, 3);
 
-        if (in_array($jour, $verif_jour)) {
+        if (!in_array($jour, $verif_jour)) {
             $valid = false;
             $err_jour = 'Veuillez renseigner ce champs';
         }
 
+        // vérification mois
         $verif_mois = array(1, 2, 3);
 
-        if (in_array($mois, $verif_mois)) {
+        if (!in_array($mois, $verif_mois)) {
             $valid = false;
             $err_mois = 'Veuillez renseigner ce champs';
         }
 
+        // vérification année
         $verif_annee = array(1, 2, 3);
 
-        if (in_array($annee, $verif_annee)) {
+        if (!in_array($annee, $verif_annee)) {
             $valid = false;
             $err_annee = 'Veuillez renseigner ce champs';
         }
 
+        // vérification departement
         $verif_departement = array(1, 2, 3);
 
-        if (in_array($jour, $verif_departement)) {
+        if (!in_array($departement, $verif_departement)) {
             $valid = false;
             $err_departement = 'Veuillez renseigner ce champs';
         }
