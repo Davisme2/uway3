@@ -1,8 +1,8 @@
 <?php
 session_start();
 $title = 'Connexion';
-include_once ('db/connexiondb.php');
-include_once ('config_function/function.php');
+require_once ('db/connexiondb.php');
+require_once ('config_function/function.php');
 
 // S'il y a une session ouverte alors on ne retourne plus sur cette page
 if (isset($_SESSION['id'])) {
@@ -28,13 +28,15 @@ if (!empty($_POST)){
         // Vérification si il y a un mot de passe renseigné
         if (empty($password)) {
             $valid = false;
+            $er_password = 'r';
         }
             // Vérification si le mail et le mot de passe existe déjà dans la base de donnée
-            $req = $DB->query("SELECT * FROM utilisateur WHERE mail = ? AND pass = ?",
-            array($mail, crypt($password, '$6$rounds=5000$ksdjkjhsdn543jhg564t5fhfgjfghdfd')));
+            $req = $DB->query("SELECT * FROM utilisateur WHERE mail = ? AND pass = ?", array($mail, crypt($password, '$6$rounds=5000$ksdjkjhsdn543jhg564t5fhfgjfghdfd')));
         
             $req = $req->fetch();
-            
+
+            var_dump($req['id']);
+            exit;
 
             // Si le mail et le mot de passe n'existe déjà dans la bdd alors l'utilisateur n'est pas encore inscrit
             if ($req['id'] == "") {
@@ -99,6 +101,9 @@ var_dump($req);
                         <input type="submit" value="Connexion" name="connexion" class="btn btn-primary">
                     </div>
                 </form>
+                <div>
+                    <a href="inscription.php">Inscription</a>
+                </div>
             </div>
         </div>
     </div>

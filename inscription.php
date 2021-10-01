@@ -156,7 +156,6 @@ if (!empty($_POST)) {
     }
 }
 
-var_dump($req_mail);
 
 ?>
 <!DOCTYPE html>
