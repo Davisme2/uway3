@@ -3,7 +3,7 @@ session_start();
 
 require_once('db/connexiondb.php');
 require_once('config_function/function.php');
-$title = 'inscription';
+$title = 'Inscription';
 
 // S'il y a une session alors on ne retourne plus sur cette page
 if (isset($_SESSION['id'])) {
@@ -140,7 +140,7 @@ if (!empty($_POST)) {
             $date_inscription = date("Y-m-d");
 
             // Chiffrage du mot de passe
-            $pass_hash = password_hash($password, PASSWORD_BCRYPT);
+            $pass_hash = crypt($password, '$6$rounds=5000$ksdjkjhsdn543jhg564t5fhfgjfghdfd');
 
             $date_inscription = date('Y-m-d H:i:s');
 
@@ -156,6 +156,7 @@ if (!empty($_POST)) {
     }
 }
 
+var_dump($req_mail);
 
 ?>
 <!DOCTYPE html>

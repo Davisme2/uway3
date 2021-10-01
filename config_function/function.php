@@ -133,6 +133,9 @@ function add_ville () {
     }
 }
 
+function non_inscrit () {
+    echo "<div class='alert alert-danger'>Le mail ou le mot de passe est incorrect</div>";
+}
 
 function alert_email() {
     echo "<div class='alert alert-danger'>Cette adresse mail existe déjà</div>";
@@ -140,6 +143,10 @@ function alert_email() {
 
 function alert_wrong_mail () {
     echo "<div class='alert alert-danger'>Cette adresse mail existe déjà</div>";
+}
+
+function alert_wrong_mail_deux () {
+    echo "<div class='alert alert-danger'>L'adresse ou le mot de passe ne correspond pas</div>";
 }
 
 function alert_password() {
