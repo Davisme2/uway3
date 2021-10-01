@@ -183,10 +183,10 @@ if (!empty($_POST)) {
                         <br>
                                 <select name="region" id="" class="form-control form-select" required>
                                     <?php if (isset($region) && !empty($region)) { ?>
-                                        <option value="<?= $region ?>"><?php $region ?></option>
+                                        <option value="<?= $region ?>"><?= $region ?></option>
                                     <?php } ?>
                                         <option value="" hidden>Regions et District</option>
-                                    <?php add_region() ?>
+                                    <?php add_region(); ?>
                                 </select>
                         <br>
                                 <select name="ville" id="" class="form-control form-select" required>
