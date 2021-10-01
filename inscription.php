@@ -1,7 +1,16 @@
 <?php
+session_start();
+
 require_once('db/connexiondb.php');
 require_once('config_function/function.php');
 $title = 'inscription';
+
+// S'il y a une session alors on ne retourne plus sur cette page
+if (isset($_SESSION['id'])) {
+    header('location: index.php');
+    exit;
+}
+
 
 //Vérification sur l'envoi du formulaire
 if (!empty($_POST)) {
@@ -11,29 +20,81 @@ if (!empty($_POST)) {
     $valid = (boolean) true;
 
     if (isset($_POST['inscription'])) {
-        $pseudo   = (String) trim($pseudo);
-        $mail     = (String) trim($mail);
-        $password = (String) trim($password);
-        $jour     = (int) $jour;
-        $mois     = (int) trim($mois);
-        $annee    = (int) $annee;
-        $region   = (String) $region;
-        $ville    = (String) $ville;
-        $date_naissance = (String) null;
+        $nom      = htmlentities(trim($nom)); // On récupère le nom
+        $prenom   = htmlentities(trim($prenom)); // On récupère le prenom
+        $pseudo   = htmlentities(trim($pseudo)); // On récupère le pseudo
+        $mail     = htmlentities(strtolower(trim($mail))); // On récupère le mail
+        $password = (String) trim($password); // On récupère le mot de passe
+        $confpass = (String) trim($confpass); // On récupère la confirmation du mot de passe
+        $jour     = (int) $jour; // On récupère le jour
+        $mois     = (int) trim($mois); // On récupère le mois
+        $annee    = (int) $annee; // On récupère l'année
+        $region   = htmlentities(trim($region)); // On récupère la region
+        $ville    = htmlentities(trim($ville)); // On récupère la ville
+        $date_naissance = (String) null; // On récupère la date de naissance
+
+        // vérification nom
+        if (empty($nom)){
+            $valid = false;
+        }
+
+        //vérification prenom
+        if (empty($prenom)) {
+            $valid = false;
+        }
+        
+
 
         // vérifications pseudo
         if (empty($pseudo)) {
             $valid = false;
+
+        }else{
+            // On vérifie si le pseudo existe déjà dans la base de donnée
+            $req_pseudo = $DB->query("SELECT pseudo FROM utilisateur WHERE pseudo = ?", array($pseudo));
+            $req_pseudo = $req_pseudo->fetch();
+
+            if ($req_pseudo['pseudo'] <> "") {
+                $valid = false;
+                $er_pseudo = "r";
+            }
         }
+
+
+
 
         // vérification email
         if (empty($mail)) {
             $valid = false;
         }
-
-        // vérification password
-        if (empty($password)) {
+        // On vérifie si le mail est dans un bon format
+        elseif(!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $mail)){
             $valid = false;
+            $er_mail = "r";
+
+        }else{
+            //On vérifie que le mail est disponible
+            $req_mail = $DB->query("SELECT mail FROM utilisateur WHERE mail = ?", 
+            array($mail));
+
+            $req_mail = $req_mail->fetch();
+
+            if ($req_mail['mail'] <> "") {
+                $valid = false;
+                $er_mail = "r";
+            }
+        }
+
+        
+
+
+
+        // Vérification du mot de passe
+        if(empty($password)) {
+            $valid = false;
+        }elseif($password != $confpass) {
+            $valid = false;
+            $er_mdp = "r";
         }
 
         // vérification jour
@@ -73,16 +134,23 @@ if (!empty($_POST)) {
             $valid = false;
         }
 
+        // Si toutes les conditions sont remplies alors on fait le traitement
         if ($valid) {
             //la date de l'ordinateur
             $date_inscription = date("Y-m-d");
 
+            // Chiffrage du mot de passe
+            $pass_hash = password_hash($password, PASSWORD_BCRYPT);
+
+            $date_inscription = date('Y-m-d H:i:s');
+
             // préparation de la requette pour stocker les valeurs dans la bdd
-            $req = $BDD->prepare("INSERT INTO utilisateur (pseudo, mail, pass, date_naissance, region, ville, date_inscription)
-                VALUES(?, ?, ?, ?, ?, ?, ?)");
-            
-            // exécution de la requette
-            $req->execute(array($pseudo, $mail, $password, $date_naissance, $region, $ville, $date_inscription));
+            $DB->insert("INSERT INTO utilisateur (nom, prenom, pseudo, mail, pass, date_naissance, region, ville, date_inscription)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                array($nom, $prenom, $pseudo, $mail, $pass_hash, $date_naissance, $region, $ville, $date_inscription));
+
+            header('Location: index.php');
+            exit;
         }
 
     }
@@ -119,15 +187,21 @@ if (!empty($_POST)) {
 
                     <section>
                         <div>
-                            <input type="text" name="pseudo" id="" placeholder="Pseudo" class="form-control" required>
+                            <input type="text" name="nom" id="" placeholder="Nom" class="form-control" value="<?php if (isset($nom)) {echo $nom;} ?>" required>
                         </div>
                         <br>
                         <div>
-                            <input type="text" name="mail" id="" placeholder="email" class="form-control" required>
+                            <input type="text" name="prenom" id="" placeholder="Prenom" class="form-control" value="<?php if (isset($prenom)) {echo $prenom;} ?>" required>
                         </div>
                         <br>
                         <div>
-                            <input type="password" name="password" id="" placeholder="Mot de passe" class="form-control" required>
+                            <input type="text" name="pseudo" id="" placeholder="Pseudo" class="form-control" value="<?php if (isset($pseudo)) {echo $pseudo;} ?>" required>
+                            <?php if (isset($er_pseudo)) {alert_pseudo();} ?>
+                        </div>
+                        <br>
+                        <div>
+                            <input type="text" name="mail" id="" placeholder="email" class="form-control"  value="<?php if (isset($mail)) {echo $mail;} ?>" required>
+                            <?php if(isset($er_mail)) { alert_email(); } ?>
                         </div>
                         <br>
                         <div class="row">
@@ -197,10 +271,20 @@ if (!empty($_POST)) {
                                     <?php add_ville(); ?>
                                 </select>
                         <br>
+                        <div>
+                            <input type="password" name="password" id="" placeholder="Mot de passe" class="form-control" required>
+                        </div>
+                        <br>
+                        <div>
+                            <input type="password" name="confpass" id="" placeholder="Confirmer le mot de passe" class="form-control" required>
+                                <?php if (isset($er_mdp)) {alert_password();} ?>
+                        </div>
+                        <br>
                     </section>
 
                     <input type="submit" name="inscription" value="S'inscrire" class="btn btn-primary">
                 </form>
+                <br>
                 </div>
             </div>
         </div>

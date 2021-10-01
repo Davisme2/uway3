@@ -132,3 +132,20 @@ function add_ville () {
         echo $fin;
     }
 }
+
+
+function alert_email() {
+    echo "<div class='alert alert-danger'>Cette adresse mail existe déjà</div>";
+}
+
+function alert_wrong_mail () {
+    echo "<div class='alert alert-danger'>Cette adresse mail existe déjà</div>";
+}
+
+function alert_password() {
+    echo "<div class='alert alert-danger'>Les mots de passe ne correspondent pas</div>";
+}
+
+function alert_pseudo() {
+    echo "<div class='alert alert-danger'>Ce pseudo existe déjà</div>";
+}
