@@ -33,18 +33,21 @@ $afficher_profil = $afficher_profil->fetch();
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <h1>Bienvenue</h1>
+            <div class="col-md-6">
+                <br>
+                <h1>Bienvenue sur votre profil</h1>
                 <br>
                 <p class="alert alert-success">M. <?= $afficher_profil['nom'] . " " . $afficher_profil['prenom']; ?></p>
                 <br>
-                <ul class="aler alert-danger">
-                    <li>Id : <?= $afficher_profil['id'] ?></li>
-                    <li>Pseudo : <?= $afficher_profil['pseudo'] ?></li>
-                    <li>Email : <?= $afficher_profil['mail'] ?></li>
-                    <li>Date d'inscription : <?= $afficher_profil['date_inscription'] ?></li>
-                    <li>Née le : <?= $afficher_profil['date_naissance'] ?> à <?= $afficher_profil['ville'] ?></li>
-                </ul>
+                <div class="alert alert-danger">
+                    <ul>
+                        <li>Id : <?= $afficher_profil['id'] ?></li>
+                        <li>Pseudo : <?= $afficher_profil['pseudo'] ?></li>
+                        <li>Email : <?= $afficher_profil['mail'] ?></li>
+                        <li>Date d'inscription : <?= $afficher_profil['date_inscription'] ?></li>
+                        <li>Née le : <?= $afficher_profil['date_naissance'] ?> à <?= $afficher_profil['ville'] ?></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

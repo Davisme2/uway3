@@ -6,7 +6,7 @@ require_once ('config_function/function.php');
 
 // S'il y a une session ouverte alors on ne retourne plus sur cette page
 if (isset($_SESSION['id'])) {
-    header('Location: index.php');
+    header('Location: profil.php');
     exit;
 }
 
