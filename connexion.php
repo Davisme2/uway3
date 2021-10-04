@@ -43,8 +43,9 @@ if (!empty($_POST)){
             if ($req == false) {
                 $valid = false;
                 $er_mail = 'r';
-            }
-
+            } 
+            
+            
         // Dans le cas où le mail ou le mot de passe existent alors on charge la session du visiteur en utilisant les variables $_SESSION
         if ($valid) {
 
@@ -52,12 +53,19 @@ if (!empty($_POST)){
             $req_fin = $DB->query("SELECT * FROM utilisateur");
             $req_fin = $req_fin->fetch();
 
+            // Remise à 0 de n_password dans la bdd si il est égale à 1
+            if ($req_fin['n_password'] == 1) {
+
+                $DB->insert("UPDATE utilisateur SET n_password = 0 WHERE id = ?", array($req_fin['id']));
+
+            }
+
             $_SESSION['id']     =   $req_fin['id'];
             $_SESSION['nom']    =   $req_fin['nom'];
             $_SESSION['prenom'] =   $req_fin['prenom'];
             $_SESSION['mail']   =   $req_fin['mail'];
 
-            header('Location: index.php');
+            header('Location: profil.php');
             exit;
         }
     }
@@ -71,7 +79,7 @@ if (!empty($_POST)){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php if (isset($title)) { echo $title; } else { echo 'Page non trouvée'; } ?></title>
+    <title><?php if(isset($title)) {echo $title;} ?></title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">

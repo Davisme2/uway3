@@ -1,12 +1,18 @@
 <?php
 $active = 'active';
-$lien_connexion = 'href="/connexion.php"';
-$lien_deconnexion = 'href="/deconnexion.php"';
+$lien_connexion = '';
+$lien = '';
 
 if(isset($_SESSION['id'])){
-  $lien_deconnexion .= $active . '" ' . $lien_deconnexion;
+  $lien_connexion .= $active . '" ' . 'href="/deconnexion.php"';
 } else {
-  $lien_connexion .= $active . '" ' . $lien_connexion;
+  $lien_connexion .= $active . '" ' . 'href="/connexion.php"';
+}
+
+if(isset($_SESSION['id'])) {
+  $lien = 'Se déconnecter';
+} else {
+  $lien = 'Se connecter';
 }
 
 ?>
@@ -25,7 +31,7 @@ if(isset($_SESSION['id'])){
                   <a class="nav-link <?php if($title === 'Inscription') {echo "active";} ?>" href="/inscription.php">S'inscrire</a>
                 </li>
                 <li class="nav-item ">
-                  <a class="nav-link <?php if (isset($_SESSION['id'])) {echo $lien_deconnexion;} else {echo $lien_connexion;} ?>><?php if(isset($_SESSION['id'])) {echo 'Se déconnecter';} else {echo 'Se connecter';} ?></a>
+                  <a class="nav-link <?= $lien_connexion ?> ><?= $lien ?></a>
                 </li>
               </ul>
             </div>

@@ -1,12 +1,7 @@
 <?php
 // Ouvre une session pour afficher le donnée de $_SESSION
 session_start();
-
-if (isset($_SESSION['id'])) {
-    $title = 'Bienvenue';
-} else {
-    $title = 'Accueil';
-}
+$title = 'Accueil';
 
 
 
@@ -21,7 +16,7 @@ if (isset($_SESSION['id'])) {
     <title>Document</title>
 
     <!-- title -->
-    <title><?= $title ?></title>
+    <title><?php if(isset($title)) {echo $title;} ?></title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -52,13 +47,6 @@ if (isset($_SESSION['id'])) {
                 </p>
                 <br>
 
-                <?php
-
-                    if (isset($_SESSION['id'])) {
-                        echo 'ID : ' . $_SESSION['id'] . '<br>Nom : ' . $_SESSION['nom'] . "<br>Prénom : " . $_SESSION['prenom'] . "<br>Mail : " . $_SESSION['mail'];
-                    }
-
-                ?>
             </div>
         </div>
     </div>
