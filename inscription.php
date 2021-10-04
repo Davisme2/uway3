@@ -44,7 +44,6 @@ if (!empty($_POST)) {
         }
         
 
-
         // vérifications pseudo
         if (empty($pseudo)) {
             $valid = false;

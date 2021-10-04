@@ -38,7 +38,7 @@ $afficher_profil = $afficher_profil->fetch();
                 <br>
                 <p class="alert alert-success">M. <?= $afficher_profil['nom'] . " " . $afficher_profil['prenom']; ?></p>
                 <br>
-                <ul>
+                <ul class="aler alert-danger">
                     <li>Id : <?= $afficher_profil['id'] ?></li>
                     <li>Pseudo : <?= $afficher_profil['pseudo'] ?></li>
                     <li>Email : <?= $afficher_profil['mail'] ?></li>

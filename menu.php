@@ -5,8 +5,10 @@ $lien = '';
 
 if(isset($_SESSION['id'])){
   $lien_connexion .= $active . '" ' . 'href="/deconnexion.php"';
-} else {
+} elseif ($title = 'Connexion') {
   $lien_connexion .= $active . '" ' . 'href="/connexion.php"';
+}else {
+  $lien_connexion .= '" ' . 'href="/connexion.php"';
 }
 
 if(isset($_SESSION['id'])) {
