@@ -1,7 +1,13 @@
 <?php
 // Ouvre une session pour afficher le donnée de $_SESSION
 session_start();
-$title = 'Acceuil';
+
+if (isset($_SESSION['id'])) {
+    $title = 'Bienvenue';
+} else {
+    $title = 'Accueil';
+}
+
 
 
 ?>
@@ -15,7 +21,7 @@ $title = 'Acceuil';
     <title>Document</title>
 
     <!-- title -->
-    <title><?php if (isset($title)) { echo $title; } else { echo 'Page non trouvée'; } ?></title>
+    <title><?= $title ?></title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -31,19 +37,20 @@ $title = 'Acceuil';
             <div class="col-md-6">
                 <br>
                 <h1>Bienvenu sur notre site</h1>
-                <?php
-                    if (isset($_SESSION['id'])) {
-                        ?>
-                            <a href="deconnexion.php">Déconnexion</a>
-                            <br>
-                        <?php
-                    } else {
-                        ?>
-                            <a href="inscription.php">Inscription</a>
-                            <a href="connexion.php">Connexion</a>
-                        <?php
-                    }
-                ?>
+                <br>
+                <p>Veuillez vous connecter svp</p>
+                <br>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+                    Porro, possimus optio accusamus commodi adipisci minus.
+                    Odio cum sequi quia magni voluptatum sint expedita modi, 
+                    animi ratione nostrum sunt harum obcaecati assumenda est 
+                    aspernatur tenetur minima incidunt accusantium non saepe 
+                    quasi consequatur quis corrupti dicta! Odit enim reiciendis 
+                    mollitia facere tempore alias iure aspernatur expedita, 
+                    recusandae eligendi eos sit placeat, minus rerum est harum 
+                    dolorem maxime vitae facilis vero impedit! Maxime.
+                </p>
+                <br>
 
                 <?php
 

@@ -30,30 +30,32 @@ if (!empty($_POST)){
             $valid = false;
             $er_password = 'r';
         }
+
+            $password_crypt = crypt($password, '$6$rounds=5000$ksdjkjhsdn543jhg564t5fhfgjfghdfd');
+
             // Vérification si le mail et le mot de passe existe déjà dans la base de donnée
-            $req = $DB->query("SELECT * FROM utilisateur WHERE mail = ? AND pass = ?", array($mail, crypt($password, '$6$rounds=5000$ksdjkjhsdn543jhg564t5fhfgjfghdfd')));
+            $req = $DB->query("SELECT mail,pass FROM utilisateur WHERE mail = ? OR pass = ?",
+                array($mail, $password_crypt));
         
             $req = $req->fetch();
 
-            var_dump($req['id']);
-            exit;
-
-            // Si le mail et le mot de passe n'existe déjà dans la bdd alors l'utilisateur n'est pas encore inscrit
-            if ($req['id'] == "") {
+            // Si le mail et le mot de passe n'existe déjà dans la bdd alors l'utilisateur n'est pas encore inscrit $req renvoie false
+            if ($req == false) {
                 $valid = false;
                 $er_mail = 'r';
             }
 
-
-        
-
-        // Dans le cas où le mail ou le mot de passe existen déjà alors on charge une session du visiteur en utilisant les variables $_SESSION
+        // Dans le cas où le mail ou le mot de passe existent alors on charge la session du visiteur en utilisant les variables $_SESSION
         if ($valid) {
 
-            $_SESSION['id'] = $req['id']; // l'id de session unique pour les requêtes futures
-            $_SESSION['nom'] = $req['nom'];
-            $_SESSION['prenom'] = $req['prenom'];
-            $_SESSION['mail'] = $req['mail'];
+            // On récupère toutes les données de la bdd dans le but de charger la session du visiteur qui se log avec des login qui exitent dans la bdd
+            $req_fin = $DB->query("SELECT * FROM utilisateur");
+            $req_fin = $req_fin->fetch();
+
+            $_SESSION['id']     =   $req_fin['id'];
+            $_SESSION['nom']    =   $req_fin['nom'];
+            $_SESSION['prenom'] =   $req_fin['prenom'];
+            $_SESSION['mail']   =   $req_fin['mail'];
 
             header('Location: index.php');
             exit;
@@ -61,7 +63,6 @@ if (!empty($_POST)){
     }
 }
 
-var_dump($req);
 
 ?>
 <!DOCTYPE html>
@@ -96,13 +97,13 @@ var_dump($req);
                     </div>
                     <br>
                     <?php if(isset($er_mail)) {non_inscrit();} ?>
-                    <br>
                     <div>
                         <input type="submit" value="Connexion" name="connexion" class="btn btn-primary">
                     </div>
+                    <br>
                 </form>
                 <div>
-                    <a href="inscription.php">Inscription</a>
+                    <a href="motdepasse.php">Mot de passe oublié ?</a>
                 </div>
             </div>
         </div>
