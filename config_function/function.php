@@ -156,3 +156,5 @@ function alert_password() {
 function alert_pseudo() {
     echo "<div class='alert alert-danger'>Ce pseudo existe déjà</div>";
 }
+
+

@@ -1,34 +1,52 @@
 <?php
+require_once 'config_function/function.php';
 $active = 'active';
 $lien_connexion = '';
+$lien_inscription = '';
 $lien = '';
+$profil = '';
 
 // Si il y a une session ouverte alors afficher
 if(isset($_SESSION['id'])){
 
   // Si nous sommes sur la page profil alors
   if ($title == 'Bienvenue') {
-    $lien_connexion .= $active . '" ' . 'href="/deconnexion.php"';
-  }
-
-  if ($title !== 'Bienvenue') {
-    $lien_connexion .= '" ' . 'href="/deconnexion.php"';
+  $lien_connexion = $active . '" ' . 'href="/deconnexion.php';
   }
 }
 
-// Si il y a une session ouverte et que le titre est Accueil alors afficher
-if(isset($_SESSION['id']) && ($title !== 'Connexion')){
-  $lien_connexion .= '" ' . 'href="/deconnexion.php"';
-}
+// Si il y a une session ouverte alors afficher
+if(!isset($_SESSION['id'])){
 
-// Si il y a une session ouverte et que le titre de la page est Connexion alors afficher
-if (!isset($_SESSION['id']) && $title == 'Connexion') {
-  $lien_connexion .= $active . '" ' . 'href="/connexion.php';
-}
+  // Si nous sommes sur la page d'Accueil alors
+  if ($title == 'Accueil') {
+  $lien_inscription .= '" ' . 'href="/inscription.php';
+  }
 
-// Si il y a une session ouverte et que le titre de la page est different alors afficher
-if (!isset($_SESSION['id']) && $title !== 'Connexion') {
+  // Si nous sommes sur la page d'Accueil alors
+  if ($title == 'Accueil') {
   $lien_connexion .= '" ' . 'href="/connexion.php';
+  }
+
+  // Si nous sommes sur la page S'inscrire alors
+  if ($title == 'Inscription') {
+  $lien_inscription .= $active . '" ' . 'href="/inscription.php';
+  }
+
+  // Si nous sommes sur la page S'inscrire alors
+  if ($title == 'Inscription') {
+  $lien_connexion .= '" ' . 'href="/connexion.php';
+  }
+
+  // Si nous sommes sur la page se connecter alors
+  if ($title == 'Connexion') {
+  $lien_inscription .= '" ' . 'href=/inscription.php';
+  }
+
+  // Si nous sommes sur la page se connecter alors
+  if ($title == 'Connexion') {
+  $lien_connexion .= $active . '" ' . 'href=/inscription.php';
+  }
 }
 
 // Affichage connecté ou déconnecté
@@ -40,7 +58,7 @@ if(isset($_SESSION['id'])) {
 
 // Affichage du profil
 if(isset($_SESSION['id'])) {
-  $profil = 'Profil';
+  $profil = false;
 } else {
   $profil = 'S\'inscrire';
 }
@@ -58,7 +76,7 @@ if(isset($_SESSION['id'])) {
                   <a class="nav-link <?php if($title === 'Accueil') {echo "active";} ?>" aria-current="page" href="/index.php">Acceuil</a>
                 </li>
                 <li class="nav-item ">
-                  <a class="nav-link <?php if($title === 'Bienvenue') {echo "active";} ?>" href="/inscription.php"><?= $profil ?></a>
+                  <a class="nav-link <?= $lien_inscription ?> "><?= $profil ?></a>
                 </li>
                 <li class="nav-item ">
                   <a class="nav-link <?= $lien_connexion ?> "><?= $lien ?></a>

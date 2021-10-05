@@ -10,7 +10,6 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-
 // On récupère les informations de l'utilisteur connecté
 $afficher_profil = $DB->query("SELECT * FROM utilisateur WHERE id = ?", array($_SESSION['id']));
 $afficher_profil = $afficher_profil->fetch();
@@ -21,16 +20,17 @@ if(!empty($_POST)){
 
     if (isset($_POST['modif'])){
 
-        $nom = htmlentities(trim($nom));
-        $prenom = htmlentities(trim($prenom));
-        $mail = htmlentities(trim($mail));
+        $nom      = htmlentities(trim($nom), ENT_QUOTES);
+        $prenom   = htmlentities(trim($prenom), ENT_QUOTES);
+        $pseudo   = htmlentities(trim($pseudo), ENT_QUOTES); // On récupère le pseudo
+        $mail     = htmlentities(trim($mail), ENT_QUOTES);
         $password = (String) trim($password); // On récupère le mot de passe
         $confpass = (String) trim($confpass); // On récupère la confirmation du mot de passe
         $jour     = (int) $jour; // On récupère le jour
         $mois     = (int) trim($mois); // On récupère le mois
         $annee    = (int) $annee; // On récupère l'année
-        $region   = htmlentities(trim($region)); // On récupère la region
-        $ville    = htmlentities(trim($ville)); // On récupère la ville
+        $region   = htmlentities(trim($region), ENT_QUOTES); // On récupère la region
+        $ville    = htmlentities(trim($ville), ENT_QUOTES); // On récupère la ville
         $date_naissance = (String) null; // On récupère la date de naissance
 
 
@@ -43,20 +43,16 @@ if(!empty($_POST)){
             $valid = false;
         }
 
+        // vérifications pseudo
+        if (empty($pseudo)) {
+            $valid = false;
+        }
+
         if(empty($mail)){
             $valid = false;
         }elseif(!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $mail)){
             $valid = false;
             $er_mail = 'r';
-        }else{
-            $req_mail = $DB->query("SELECT mail FROM utilisateur WHERE mail = ?", array($mail));
-            $req_mail = $req_mail->fetch();
-
-            if($req_mail['mail'] <> ""){
-                $valid = false;
-                $er_mail = 'a';
-            }
-            
         }
 
         // Vérification du mot de passe
@@ -67,15 +63,6 @@ if(!empty($_POST)){
             $er_mdp = "r";
         }
 
-        // On vérifie que l'utilisateur existe bien !
-        $req = $DB->query("SELECT id FROM utilisateur WHERE id = ?", array($_SESSION['id']));
-        $req = $req->fetch();
-
-        // Si on a pas de résultat alors c'est que l'utilisateur n'existe pas
-        if($req['id'] == ""){
-            $valid = false;
-            $er_general = "L'utilisateur n'existe pas";
-        }
 
         // vérification jour
         $verif_jour = add_jour();
@@ -120,12 +107,14 @@ if(!empty($_POST)){
             $DB->insert("UPDATE utilisateur SET prenom = ?, nom = ?, pseudo = ?, mail = ?, date_naissance = ?, region = ?, ville = ? WHERE id = ?",
                 array($prenom, $nom, $pseudo, $mail, $date_naissance, $region, $ville, $_SESSION['id']));
 
+
                 $_SESSION['nom']            = $nom;
                 $_SESSION['prenom']         = $prenom;
                 $_SESSION['mail']           = $mail;
                 $_SESSION['date_naissance'] = $date_naissance;
                 $_SESSION['region']         = $region;
                 $_SESSION['ville']          = $ville;
+        
 
                 header('Location: profil.php');
                 exit;
@@ -171,6 +160,11 @@ if(!empty($_POST)){
                     <br>
                     <div>
                         <input type="text" name="prenom" id="" placeholder="Prenom" class="form-control" value=" <?php if(isset($prenom)) {echo $prenom;}else{ echo $afficher_profil['prenom'];} ?>" required>
+                    </div>
+                    <br>
+                    <div>
+                        <input type="text" name="pseudo" id="" placeholder="Pseudo" class="form-control" value="<?php if (isset($pseudo)) {echo $pseudo;}else{ echo $afficher_profil['pseudo'];} ?>" required>
+                        <?php if (isset($er_pseudo)) {alert_pseudo();} ?>
                     </div>
                     <br>
                     <div>
@@ -265,5 +259,6 @@ if(!empty($_POST)){
         </div>
     </div>
     
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

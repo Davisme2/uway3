@@ -49,11 +49,12 @@ $afficher_profil = $afficher_profil->fetch();
                     </ul>
                 </div>
                 <div>
-                    <a href="/index.php">Accueil</a> / <a href="modifier-profil.php">Modifier votre profil</a>
+                    <a href="modifier-profil.php">Modifier votre profil</a>
                 </div>
             </div>
         </div>
     </div>
     
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
