@@ -5,9 +5,12 @@ $lien = '';
 
 // Si il y a une session ouverte alors afficher
 if(isset($_SESSION['id'])){
+
+  // Si nous sommes sur la page profil alors
   if ($title == 'Bienvenue') {
     $lien_connexion .= $active . '" ' . 'href="/deconnexion.php"';
   }
+
   if ($title !== 'Bienvenue') {
     $lien_connexion .= '" ' . 'href="/deconnexion.php"';
   }

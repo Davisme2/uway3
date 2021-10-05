@@ -48,6 +48,9 @@ $afficher_profil = $afficher_profil->fetch();
                         <li>Née le : <?= $afficher_profil['date_naissance'] ?> à <?= $afficher_profil['ville'] ?></li>
                     </ul>
                 </div>
+                <div>
+                    <a href="/index.php">Accueil</a> / <a href="modifier-profil.php">Modifier votre profil</a>
+                </div>
             </div>
         </div>
     </div>

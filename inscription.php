@@ -47,7 +47,6 @@ if (!empty($_POST)) {
         // vérifications pseudo
         if (empty($pseudo)) {
             $valid = false;
-
         }else{
             // On vérifie si le pseudo existe déjà dans la base de donnée
             $req_pseudo = $DB->query("SELECT pseudo FROM utilisateur WHERE pseudo = ?", array($pseudo));
@@ -229,9 +228,9 @@ if (!empty($_POST)) {
 
                                     <?php } ?>
 
-                                    <option value="" hidden>Mois</option>
+                                        <option value="" hidden>Mois</option>
 
-                                        <?php add_mois(); ?>    
+                                    <?php add_mois(); ?>    
 
                                 </select>
                             </div>
