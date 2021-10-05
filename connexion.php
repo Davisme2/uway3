@@ -87,31 +87,37 @@ if (!empty($_POST)){
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body style="background-color: #fafafa;">
     <?php require_once 'menu.php' ?>
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <h1>Se connecter</h1>
+            <div class="col-sm-0 col-md-2 col-lg-3"></div>
+            <div class="col-sm-12 col-md-8 col-lg-6">
+                
                 <br>
-                <form action="" method="POST" class="form-group">
-                    <div>
-                        <input type="email" name="mail" id="" placeholder="Adresse mail" class="form-control" value="<?php if(isset($mail)) {echo $mail;} ?>" required>
-                    </div>
-                    <br>
-                    <div>
-                        <input type="password" name="password" id="" placeholder="Mot de passe" class="form-control" value="<?php if(isset($password)) {echo $password;} ?>" required>
-                    </div>
-                    <br>
-                    <?php if(isset($er_mail)) {non_inscrit();} ?>
-                    <div>
-                        <input type="submit" value="Connexion" name="connexion" class="btn btn-primary">
-                    </div>
-                    <br>
-                </form>
-                <div>
-                    <a href="motdepasse.php">Mot de passe oublié ?</a>
+                <div style="background-color: white; padding: 15px 10px; margin-top: 20px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); border-radius: 10px">
+                <br>
+                <h1 style="text-align: center;" class="alert alert-dark alert-dismissible fade show">Se connecter</h1>
+                    <form action="" method="POST" class="form-group">
+                        <div>
+                            <input type="email" name="mail" id="" placeholder="Adresse mail" class="form-control" value="<?php if(isset($mail)) {echo $mail;} ?>" required>
+                        </div>
+                        <br>
+                        <div>
+                            <input type="password" name="password" id="" placeholder="Mot de passe" class="form-control" value="<?php if(isset($password)) {echo $password;} ?>" required>
+                        </div>
+                        <br>
+                        <?php if(isset($er_mail)) {non_inscrit();} ?>
+                        <div>
+                            <a href="motdepasse.php" style="text-decoration: none;">Mot de passe oublié ?</a>
+                        </div>
+                        <br>
+                        <div>
+                            <input type="submit" value="Connexion" name="connexion" class="btn btn-primary">
+                        </div>
+                        <br>
+                    </form>
                 </div>
             </div>
         </div>

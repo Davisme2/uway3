@@ -28,13 +28,15 @@ $title = 'Accueil';
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-0 col-md-2 col-lg-3"></div>
+            <div class="col-sm-12 col-md-8 col-lg-6">
                 <br>
-                <h1>Bienvenu sur notre site</h1>
+                    <h1>Bienvenu sur notre site</h1>
                 <br>
-                <p>Veuillez vous connecter svp</p>
+                    <p>Veuillez vous connecter svp</p>
                 <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+                <p>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
                     Porro, possimus optio accusamus commodi adipisci minus.
                     Odio cum sequi quia magni voluptatum sint expedita modi, 
                     animi ratione nostrum sunt harum obcaecati assumenda est 
@@ -45,7 +47,6 @@ $title = 'Accueil';
                     dolorem maxime vitae facilis vero impedit! Maxime.
                 </p>
                 <br>
-
             </div>
         </div>
     </div>

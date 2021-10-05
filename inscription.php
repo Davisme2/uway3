@@ -172,116 +172,119 @@ if (!empty($_POST)) {
         <!-- CSS -->
         <link rel="stylesheet" href="css/style.css">
     </head>
-    <body>
+    <body style="background-color: #fafafa;">
         <?php require_once 'menu.php' ?>
 
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-md-offset-6">
+                <div class="col-sm-0 col-md-2 col-lg-3"></div>
+                <div class="col-sm-12 col-md-8 col-lg-6">
                 <br>
-                <h1>Insciption</h1>
-                
-                <form method="post" class="form-group">
-
-                    <section>
-                        <div>
-                            <input type="text" name="nom" id="" placeholder="Nom" class="form-control" value="<?php if (isset($nom)) {echo $nom;} ?>" required>
-                        </div>
+                    <div style="background-color: white; padding: 15px 10px; margin-top: 20px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); border-radius: 10px">
+                        <h1 style="text-align: center;" class="alert alert-dark alert-dismissible fade show">Insciption</h1>
                         <br>
-                        <div>
-                            <input type="text" name="prenom" id="" placeholder="Prenom" class="form-control" value="<?php if (isset($prenom)) {echo $prenom;} ?>" required>
-                        </div>
-                        <br>
-                        <div>
-                            <input type="text" name="pseudo" id="" placeholder="Pseudo" class="form-control" value="<?php if (isset($pseudo)) {echo $pseudo;} ?>" required>
-                            <?php if (isset($er_pseudo)) {alert_pseudo();} ?>
-                        </div>
-                        <br>
-                        <div>
-                            <input type="text" name="mail" id="" placeholder="email" class="form-control"  value="<?php if (isset($mail)) {echo $mail;} ?>" required>
-                            <?php if(isset($er_mail)) { alert_email(); } ?>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <select name="jour" id="" class="form-control form-select" required> 
-                                    <?php if (isset($jour) && !empty($jour)){ ?>
+                        <form method="post" class="form-group">
 
-                                        <option value="<?= $jour ?>"><?= $jour ?></option>
+                            <section>
+                                <div>
+                                    <input type="text" name="nom" id="" placeholder="Nom" class="form-control" value="<?php if (isset($nom)) {echo $nom;} ?>" required>
+                                </div>
+                                <br>
+                                <div>
+                                    <input type="text" name="prenom" id="" placeholder="Prenom" class="form-control" value="<?php if (isset($prenom)) {echo $prenom;} ?>" required>
+                                </div>
+                                <br>
+                                <div>
+                                    <input type="text" name="pseudo" id="" placeholder="Pseudo" class="form-control" value="<?php if (isset($pseudo)) {echo $pseudo;} ?>" required>
+                                    <?php if (isset($er_pseudo)) {alert_pseudo();} ?>
+                                </div>
+                                <br>
+                                <div>
+                                    <input type="text" name="mail" id="" placeholder="email" class="form-control"  value="<?php if (isset($mail)) {echo $mail;} ?>" required>
+                                    <?php if(isset($er_mail)) { alert_email(); } ?>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <select name="jour" id="" class="form-control form-select" required> 
+                                            <?php if (isset($jour) && !empty($jour)){ ?>
 
-                                    <?php } ?>
+                                                <option value="<?= $jour ?>"><?= $jour ?></option>
 
-                                        <option value="" hidden>Jour</option>
+                                            <?php } ?>
 
-                                    <?php for ($r = 1; $r <= 31; $r++) { ?>
+                                                <option value="" hidden>Jour</option>
 
-                                        <option value="<?= $r ?>"><?= $r ?></option>
+                                            <?php for ($r = 1; $r <= 31; $r++) { ?>
 
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <select name="mois" id="" class="form-control form-select" required>
-                                    <?php if (isset($mois) && !empty($mois)){ ?>
+                                                <option value="<?= $r ?>"><?= $r ?></option>
 
-                                        <option value="<?= $mois ?>"><?= $mois ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <select name="mois" id="" class="form-control form-select" required>
+                                            <?php if (isset($mois) && !empty($mois)){ ?>
 
-                                    <?php } ?>
+                                                <option value="<?= $mois ?>"><?= $mois ?></option>
 
-                                        <option value="" hidden>Mois</option>
+                                            <?php } ?>
 
-                                    <?php add_mois(); ?>    
+                                                <option value="" hidden>Mois</option>
 
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <select name="annee" id="" class="form-control form-select" required>
-                                    <?php if (isset($annee) && !empty($annee)){ ?>
+                                            <?php add_mois(); ?>    
 
-                                        <option value="<?= $annee ?>"><?= $annee ?></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <select name="annee" id="" class="form-control form-select" required>
+                                            <?php if (isset($annee) && !empty($annee)){ ?>
 
-                                    <?php } ?>
+                                                <option value="<?= $annee ?>"><?= $annee ?></option>
 
-                                        <option value="" hidden>Année</option>
+                                            <?php } ?>
 
-                                    <?php for ($r = 1970; $r <= 2005; $r++) { ?>
+                                                <option value="" hidden>Année</option>
 
-                                        <option value="<?= $r ?>"><?= $r ?></option>
+                                            <?php for ($r = 1970; $r <= 2005; $r++) { ?>
 
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                                <select name="region" id="" class="form-control form-select" required>
-                                    <?php if (isset($region) && !empty($region)) { ?>
-                                        <option value="<?= $region ?>"><?= $region ?></option>
-                                    <?php } ?>
-                                        <option value="" hidden>Regions et District</option>
-                                    <?php add_region(); ?>
-                                </select>
-                        <br>
-                                <select name="ville" id="" class="form-control form-select" required>
-                                    <?php if (isset($ville) && !empty($ville)) { ?>
-                                        <option value="<?= $ville ?>"><?= $ville ?></option>
-                                    <?php } ?>
-                                        <option value="" hidden>Villes</option>
-                                    <?php add_ville(); ?>
-                                </select>
-                        <br>
-                        <div>
-                            <input type="password" name="password" id="" placeholder="Mot de passe" class="form-control" required>
-                        </div>
-                        <br>
-                        <div>
-                            <input type="password" name="confpass" id="" placeholder="Confirmer le mot de passe" class="form-control" required>
-                                <?php if (isset($er_mdp)) {alert_password();} ?>
-                        </div>
-                        <br>
-                    </section>
+                                                <option value="<?= $r ?>"><?= $r ?></option>
 
-                    <input type="submit" name="inscription" value="S'inscrire" class="btn btn-primary">
-                </form>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                        <select name="region" id="" class="form-control form-select" required>
+                                            <?php if (isset($region) && !empty($region)) { ?>
+                                                <option value="<?= $region ?>"><?= $region ?></option>
+                                            <?php } ?>
+                                                <option value="" hidden>Regions et District</option>
+                                            <?php add_region(); ?>
+                                        </select>
+                                <br>
+                                        <select name="ville" id="" class="form-control form-select" required>
+                                            <?php if (isset($ville) && !empty($ville)) { ?>
+                                                <option value="<?= $ville ?>"><?= $ville ?></option>
+                                            <?php } ?>
+                                                <option value="" hidden>Villes</option>
+                                            <?php add_ville(); ?>
+                                        </select>
+                                <br>
+                                <div>
+                                    <input type="password" name="password" id="" placeholder="Mot de passe" class="form-control" required>
+                                </div>
+                                <br>
+                                <div>
+                                    <input type="password" name="confpass" id="" placeholder="Confirmer le mot de passe" class="form-control" required>
+                                        <?php if (isset($er_mdp)) {alert_password();} ?>
+                                </div>
+                                <br>
+                            </section>
+
+                            <input type="submit" name="inscription" value="S'inscrire" class="btn btn-primary">
+                        </form>
+                    </div>
                 <br>
                 </div>
             </div>

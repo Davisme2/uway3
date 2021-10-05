@@ -13,6 +13,11 @@ if(isset($_SESSION['id'])){
   if ($title == 'Bienvenue') {
   $lien_connexion = $active . '" ' . 'href="/deconnexion.php';
   }
+
+  // Si nous sommes sur la page profil alors
+  if ($title == 'Accueil') {
+    $lien_connexion = '" ' . 'href="/deconnexion.php';
+    }
 }
 
 // Si il y a une session ouverte alors afficher
@@ -65,12 +70,15 @@ if(isset($_SESSION['id'])) {
 
 ?>
 <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
               <img src="asset/img/bootstrap-logo.svg" width="38" height="30" class="d-inline-block align-top" alt="Bootstrap" loading="lazy">
             </a>
-            <div id="navbarSupportedContent2">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                   <a class="nav-link <?php if($title === 'Accueil') {echo "active";} ?>" aria-current="page" href="/index.php">Acceuil</a>

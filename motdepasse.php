@@ -95,27 +95,31 @@ if (!empty($_POST)){
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body style="background-color: #fafafa;">
     <?php require_once 'menu.php' ?>
 
     <div class="container">
         <div class="row">
-        <h1>Mot de passe oublié ?</h1>
-            <div class="col-md-4">
+            
+            <div class="col-sm-0 col-md-2 col-lg-3"></div>
+            <div class="col-sm-12 col-md-8 col-lg-6">
+                <h1 style="text-align: center;" class="alert alert-dark alert-dismissible fade show">Mot de passe oublié ?</h1>
                 <br>
-                <form action="" method="POST" class="form-group">
-                    <div>
-                        <input type="email" name="mail" id="" placeholder="Adresse mail" class="form-control" value="<?php if(isset($mail)) {echo $mail;} ?>" required>
-                    </div>
+                <div style="background-color: white; padding: 15px 10px; margin-top: 20px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); border-radius: 10px">
+                    <form action="" method="POST" class="form-group">
+                        <div>
+                            <input type="email" name="mail" id="" placeholder="Adresse mail" class="form-control" value="<?php if(isset($mail)) {echo $mail;} ?>" required>
+                        </div>
+                        <br>
+                        <div>
+                            <input type="submit" value="Envoyer" name="oublie" class="btn btn-primary">
+                        </div>
+                    </form>
                     <br>
                     <div>
-                        <input type="submit" value="Envoyer" name="oublie" class="btn btn-primary">
+                        <a href="inscription.php">Inscription</a> / <a href="connexion.php">Connexion</a>
                     </div>
-                </form>
-                <br>
-                <div>
-                    <a href="inscription.php">Inscription</a> / <a href="connexion.php">Connexion</a>
-                </div>
+                </div>    
             </div>
         </div>
     </div>

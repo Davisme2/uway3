@@ -49,7 +49,7 @@ $afficher_profil = $afficher_profil->fetch();
                     </ul>
                 </div>
                 <div>
-                    <a href="modifier-profil.php">Modifier votre profil</a>
+                    <a href="modifier-profil.php" style="text-decoration: none;">Modifier votre profil</a>
                 </div>
             </div>
         </div>
