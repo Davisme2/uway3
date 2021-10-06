@@ -5,7 +5,7 @@ $title = 'Mot de passe oublié';
 include('db/connexiondb.php');
 
 if (isset($_SESSION['id'])) {
-    header('Location: index.php');
+    header('Location: index');
     exit;
 }
 
@@ -74,7 +74,7 @@ if (!empty($_POST)){
 
             // Si le mail entré par l'utilisateur n'existe pas dans la bdd alors on redirige le visiteur vers la page de connexion
             // le mot de passe de davis93m@gmail.com est 1553211025153
-            header('Location: connexion.php');
+            header('Location: connexion');
             exit;
         }
     }
@@ -84,6 +84,7 @@ if (!empty($_POST)){
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <base href="/"/>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,7 +118,7 @@ if (!empty($_POST)){
                     </form>
                     <br>
                     <div>
-                        <a href="inscription.php">Inscription</a> / <a href="connexion.php">Connexion</a>
+                        <a href="inscription">Inscription</a> / <a href="connexion">Connexion</a>
                     </div>
                 </div>    
             </div>

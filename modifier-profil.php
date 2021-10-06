@@ -6,7 +6,7 @@ require_once ('config_function/function.php');
 
 // S'il y a une session ouverte alors on ne retourne plus sur cette page
 if (!isset($_SESSION['id'])) {
-    header('Location: profil.php');
+    header('Location: index');
     exit;
 }
 
@@ -116,7 +116,7 @@ if(!empty($_POST)){
                 $_SESSION['ville']          = $ville;
         
 
-                header('Location: profil.php');
+                header('Location: profil');
                 exit;
         }
     }
@@ -126,6 +126,7 @@ if(!empty($_POST)){
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <base href="/"/>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

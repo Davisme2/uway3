@@ -7,7 +7,7 @@ $title = 'Inscription';
 
 // S'il y a une session alors on ne retourne plus sur cette page
 if (isset($_SESSION['id'])) {
-    header('location: profil.php');
+    header('location: profil');
     exit;
 }
 
@@ -47,15 +47,6 @@ if (!empty($_POST)) {
         // vérifications pseudo
         if (empty($pseudo)) {
             $valid = false;
-        }else{
-            // On vérifie si le pseudo existe déjà dans la base de donnée
-            $req_pseudo = $DB->query("SELECT pseudo FROM utilisateur WHERE pseudo = ?", array($pseudo));
-            $req_pseudo = $req_pseudo->fetch();
-
-            if ($req_pseudo['pseudo'] <> "") {
-                $valid = false;
-                $er_pseudo = "r";
-            }
         }
 
 
@@ -147,7 +138,7 @@ if (!empty($_POST)) {
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                 array($nom, $prenom, $pseudo, $mail, $pass_hash, $date_naissance, $region, $ville, $date_inscription));
 
-            header('Location: index.php');
+            header('Location: index');
             exit;
         }
 
@@ -159,6 +150,7 @@ if (!empty($_POST)) {
 <!DOCTYPE html>
 <html lang="fr">
     <head>
+        <base href="/"/>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

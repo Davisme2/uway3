@@ -6,7 +6,7 @@ require_once ('config_function/function.php');
 
 // S'il y a une session ouverte alors on ne retourne plus sur cette page
 if (isset($_SESSION['id'])) {
-    header('Location: profil.php');
+    header('Location: profil');
     exit;
 }
 
@@ -34,7 +34,7 @@ if (!empty($_POST)){
             $password_crypt = crypt($password, '$6$rounds=5000$ksdjkjhsdn543jhg564t5fhfgjfghdfd');
 
             // Vérification si le mail et le mot de passe existe déjà dans la base de donnée
-            $req = $DB->query("SELECT mail,pass FROM utilisateur WHERE mail = ? OR pass = ?",
+            $req = $DB->query("SELECT mail,pass FROM utilisateur WHERE mail = ? AND pass = ?",
                 array($mail, $password_crypt));
         
             $req = $req->fetch();
@@ -50,7 +50,7 @@ if (!empty($_POST)){
         if ($valid) {
 
             // On récupère toutes les données de la bdd dans le but de charger la session du visiteur qui se log avec des login qui exitent dans la bdd
-            $req_fin = $DB->query("SELECT * FROM utilisateur");
+            $req_fin = $DB->query("SELECT * FROM utilisateur WHERE mail = ?", array($mail));
             $req_fin = $req_fin->fetch();
 
             // Remise à 0 de n_password dans la bdd si il est égale à 1
@@ -65,7 +65,9 @@ if (!empty($_POST)){
             $_SESSION['prenom'] =   $req_fin['prenom'];
             $_SESSION['mail']   =   $req_fin['mail'];
 
-            header('Location: profil.php');
+            // var_dump($_SESSION);
+
+            header('Location: profil');
             exit;
         }
     }
@@ -76,6 +78,7 @@ if (!empty($_POST)){
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <base href="/"/>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
