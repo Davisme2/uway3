@@ -34,24 +34,37 @@ $afficher_profil = $afficher_profil->fetch();
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <br>
-                <h1>Bienvenue </h1>
-                <br>
+            <div class="col-sm-0 col-md-2 col-lg-3"></div>
+            <div class="col-sm-12 col-md-8 col-lg-6">
+                <div style="background-color: white; padding: 15px 10px; margin-top: 20px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); border-radius: 10px">
+                <h1 style="text-align: center;">Bienvenue </h1>
                 <p style="text-align: center;" class="alert alert-success">M. <?= $afficher_profil['nom'] . " " . $afficher_profil['prenom']; ?></p>
-                <br>
-                <div class="alert alert-danger">
-                    <ul>
-                        <li>Id : <?= $afficher_profil['id'] ?></li>
-                        <li>Pseudo : <?= $afficher_profil['pseudo'] ?></li>
-                        <li>Email : <?= $afficher_profil['mail'] ?></li>
-                        <li>Date d'inscription : <?= $afficher_profil['date_inscription'] ?></li>
-                        <li>Née le : <?= $afficher_profil['date_naissance'] ?> à <?= $afficher_profil['ville'] ?></li>
-                    </ul>
-                </div>
-                <div>
-                    <a href="modifier-profil" style="text-decoration: none;">Modifier votre profil</a> / <a href="/admin" style="text-decoration: none;">Administration</a>
-                </div>
+ 
+                    <div class="alert alert-dark">
+                            <div style="margin: 20px 0;">
+                                <?php
+                                    if(file_exists("public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']) && isset($_SESSION['avatar'])){
+                                ?>
+                                    <img src="<?= "public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']; ?> " alt="" width="120" class="sz-image"/>
+                                <?php
+                                    }else{
+                                ?>
+                                    <img src="public/avatars/defaults/default.png" alt="" width="120" class="sz-image"/>
+                                <?php
+                                    }
+                                ?>
+                            </div>
+                        <ul>
+                            <li>Id : <?= $afficher_profil['id'] ?></li>
+                            <li>Pseudo : <?= $afficher_profil['pseudo'] ?></li>
+                            <li>Email : <?= $afficher_profil['mail'] ?></li>
+                            <li>Date d'inscription : <?= $afficher_profil['date_inscription'] ?></li>
+                            <li>Née le : <?= $afficher_profil['date_naissance'] ?> à <?= $afficher_profil['ville'] ?></li>
+                        </ul>
+                        <div>
+                            <a href="/modifier-profil" style="text-decoration: none;">Modifier votre profil</a> / <a href="/avatar" style="text-decoration: none;">Ajouter un avatar</a> / <a href="/admin" style="text-decoration: none;">Administration</a>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>

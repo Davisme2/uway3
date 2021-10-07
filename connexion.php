@@ -64,6 +64,7 @@ if (!empty($_POST)){
             $_SESSION['nom']    =   $req_fin['nom'];
             $_SESSION['prenom'] =   $req_fin['prenom'];
             $_SESSION['mail']   =   $req_fin['mail'];
+            $_SESSION['avatar'] =   $req_fin['avatar'];
 
             // var_dump($_SESSION);
 

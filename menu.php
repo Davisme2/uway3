@@ -11,6 +11,7 @@ if(isset($_SESSION['id'])){
 
   // Si nous sommes sur la page profil alors
   if ($title == 'Bienvenue') {
+    $lien_inscription = '" ' . 'href="/profil';
     $lien_connexion = $active . '" ' . 'href="/deconnexion';
   }
 
@@ -21,9 +22,21 @@ if(isset($_SESSION['id'])){
 
   // Si nous sommes sur la page Administration alors
   if ($title == 'Administration') {
+    $lien_inscription = '" ' . 'href="/profil';
     $lien_connexion = $active . '" ' . 'href="/deconnexion';
   }
 
+  // Si nous sommes sur la page Erreur alors
+  if ($title == 'Erreur') {
+    $lien_inscription = $active . '" ' . 'href="/profil';
+    $lien_connexion = '" ' . 'href="/deconnexion';
+  }
+
+  // Si nous sommes sur la page Avatar alors
+  if ($title == 'Avatar') {
+    $lien_inscription = '" ' . 'href="/profil';
+    $lien_connexion = $active . '" ' . 'href="/deconnexion';
+  }
 }
 
 // Si il y a une session ouverte alors afficher
@@ -69,10 +82,12 @@ if(isset($_SESSION['id'])) {
 
 // Affichage du profil
 if(isset($_SESSION['id']) && $title == 'Administration') {
-  $profil = false;
+  $profil = 'Profil';
 }elseif (isset($_SESSION['id']) && $title == 'Bienvenue') {
-  $profil = false;
-}else {
+  $profil = 'Profil';
+}elseif (isset($_SESSION['id']) && $title == 'Avatar') {
+  $profil = 'Profil';
+}elseif (!isset($_SESSION['id']) && $title == 'Accueil') {
   $profil = 'S\'inscrire';
 }
 
