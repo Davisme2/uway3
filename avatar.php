@@ -100,16 +100,111 @@ if(!empty($_POST)){
                                     imagedestroy($image2);
 
                                     if($extensionUpload == 'jpg' || $extensionUpload == 'jpeg' || $extensionUpload == "pjpg" || $extensionUpload == 'pjpeg'){
-                                        
+                                        $image2 = imagecreatefromjpeg($filename);
                                     }
+
+                                    // Définition de la largeur et de la hauteur maximale
+                                    $width2 = 500;
+                                    $height2 = 500;
+
+                                    list($width_orig, $height_orig) = getimagesize($filename);
+
+                                    // Redimensionnement
+                                    $image_p2 = imagecreatetruecolor($width2, $height2);
+                                    imagealphablending($image_p2, false);
+                                    imagesavealpha($image_p2, true);
+
+                                    // Calcul des nouvelles dimensions
+                                    $point2 = 0;
+                                    $ratio = null;
+                                    if($width_orig <= $height_orig){
+                                        $ratio = $width2 / $width_orig;
+                                    }elseif($width_orig > $height_orig){
+                                        $ratio = $height2 / $height_orig;
+                                    }
+
+                                    $width2 = ($width_orig * $ratio) + 1;
+                                    $height2 = ($height_orig * $ratio) + 1;
+
+                                    imagecopyresampled($image_p2, $image2, 0, 0, $point2, 0, $width2, $height2 , $width_orig, $height_orig);
+
+                                    imagedestroy($image2);
+
+                                    if($extensionUpload == 'jpg' || $extensionUpload == 'jpeg' || $extensionUpload == "pjpg" || $extensionUpload == 'pjpeg'){
+
+                                        // Content type
+                                        header('Content-Type: image/jpeg');
+
+                                        $exif = exif_read_data($filename);
+                                        if(!empty($exif['Orientation'])) {
+                                            switch($exif['Orientation']) {
+                                                case 8:
+                                                    $image_p2 = imagerotate($image_p2,90,0);
+                                                break;
+                                                case 3:
+                                                    $image_p2 = imagerotate($image_p2,180,0);
+                                                break;
+                                                case 6:
+                                                    $image_p2 = imagerotate($image_p2,-90,0);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    // Affichage
+                                    imagejpeg($image_p2, "public/avatars/" . $_SESSION['id'] . "/" . $nom . "." . $extensionUpload, 75);
+                                    imagedestroy($image_p2);
                                 }
+
+                                $imageBD = $DB->query("SELECT avatar FROM utilisateur WHERE id = ?", array($_SESSION['id']));
+                                $imageBD = $imageBD->fetch();
+
+                                $_SESSION['avatar'] = $imageBD['avatar'];
+
+                                if(file_exists("public/avatars/". $_SESSION['id'] . "/" . $_SESSION['avatar']) && isset($_SESSION['avatar'])){
+                                    unlink("public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']);
+                                }
+
+                                $DB->insert("UPDATE utilisateur SET avatar = ? WHERE id = ?", array(($nom . "." . $extensionUpload), $_SESSION['id']));
+
+                                $_SESSION['avatar'] = ($nom . "." . $extensionUpload); // On met à jour l'avatar
+
+                                // $_SESSION['flash']['success'] = "Nouvel avatar enregistré !";
+                                header('Location: profil');
+                                exit;
+
+                                ////////////////FIN DE COMPRESSION DE L'IMAGE ENREGISTREE////////////////////
+
+                            }else{
+                                $_SESSION['flash']['warning'] = "Le type MIME de l'image n'est pas bon";
                             }
                         }
-                    }
-                }
-            }
-        }
+                    }else
+                        $_SESSION['flash']['error'] = "Erreur lors de l'importation de votre photo.";
+                }else
+                    $_SESSION['flash']['warning'] = "Votre photo doit être au bon format jpg.";
+            }else
+                $_SESSION['flash']['warning'] = "Votre photo de profil ne doit pas dépasser 5 Mo !";
+        }else
+            $_SESSION['flash']['warning'] = "Dimension de l'image minimum 400 x 400 et maximum 6000 x 6000 !";
+    }else
+        $_SESSION['flash']['warning'] = "Veuillez mettre une image !";
+}elseif(isset($_POST['dltav'])){
+
+    // Permet de supprimer une image dans un dossier
+    if(file_exists("public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']) && isset($_SESSION['avatar'])){
+        
+        unlink("public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']);
+        rmdir("public/avatars/" . $_SESSION['id'] . "/");
+
+        $DB->insert("UPDATE utilisateur SET avatar = ? WHERE id = ?", array(NULL, $_SESSION['id']));
+
+            $_SESSION['avatar'] = NULL; // On met à jour l'avatar
     }
+
+    $_SESSION['flash']['success'] = "Votre avatar a été supprimé !";
+    header('Location: profil');
+    exit;
+
 }
 
 
