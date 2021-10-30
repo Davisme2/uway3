@@ -12,7 +12,7 @@ if(!empty($_POST)){
 
         if (isset($_FILES['file']) and !empty($_FILES['file']['name'])) {
             
-            $filenames = $_FILES['file']['tmp_name'];
+            $filename = $_FILES['file']['tmp_name'];
 
             // Récupération des tailles de l'image
             list($width_orig, $height_orig) = getimagesize($filename);
@@ -21,7 +21,7 @@ if(!empty($_POST)){
 
                 $listeExtension = array('jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif');
                 $listeExtensionIE = array('jpg' => 'image/pjpg', 'jpeg' => 'image/pjpeg');
-                $tailleMax = 5242880; // Taille maximum 5 Mo
+                $tailleMax = 2097152; // Taille maximum 2 Mo
                 // 2Mo = 2097152
                 // 3Mo = 3145728
                 // 4Mo = 4194304
@@ -42,20 +42,21 @@ if(!empty($_POST)){
 
                         if (!is_dir($dossier)) { // Si le nom du dossier n'existe pas alors on le crée
                             mkdir($dossier);
-                        }else{
+                        }else{ // Si le nom du dossier existe alors
                             if (file_exists("public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']) && isset($_SESSION['avatar'])){
                                 unlink("public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']);
                             }
                         }
 
                         $nom = md5(uniqid(rand(), true)); // Permet de générer un nom unique pour la photo
-                        $chemin = "public/avatars" . $_SESSION['id'] . "/" . $nom . "." . $extensionUpload; // création du chemin pour stocker la photo
+                        $chemin = "public/avatars/" . $_SESSION['id'] . "/" . $nom . "." . $extensionUpload; // création du chemin pour stocker la photo
                         $resultat = move_uploaded_file($_FILES['file']['tmp_name'], $chemin); // On met la photo dans ce dossier
 
                         if ($resultat){ // Si on a le résultat alors on compresse l'image
-                            
-                            if (is_readable("plublic/avatars/" . $_SESSION['id'] . "/" . $nom . "." . $extensionUpload)){
-                                
+
+                                //On vérifie si le fichier exite et est accessible en écriture
+                            if (is_readable("public/avatars/" . $_SESSION['id'] . "/" . $nom . "." . $extensionUpload)){
+
                                 $verif_ext = getimagesize("public/avatars/" . $_SESSION['id'] . "/" . $nom . "." . $extensionUpload);
 
                                 // Vérification des extensions avec la liste des extensions autorisés
@@ -111,6 +112,7 @@ if(!empty($_POST)){
 
                                     // Redimensionnement
                                     $image_p2 = imagecreatetruecolor($width2, $height2);
+
                                     imagealphablending($image_p2, false);
                                     imagesavealpha($image_p2, true);
 
@@ -153,16 +155,7 @@ if(!empty($_POST)){
                                     // Affichage
                                     imagejpeg($image_p2, "public/avatars/" . $_SESSION['id'] . "/" . $nom . "." . $extensionUpload, 75);
                                     imagedestroy($image_p2);
-                                }
-
-                                $imageBD = $DB->query("SELECT avatar FROM utilisateur WHERE id = ?", array($_SESSION['id']));
-                                $imageBD = $imageBD->fetch();
-
-                                $_SESSION['avatar'] = $imageBD['avatar'];
-
-                                if(file_exists("public/avatars/". $_SESSION['id'] . "/" . $_SESSION['avatar']) && isset($_SESSION['avatar'])){
-                                    unlink("public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']);
-                                }
+                                } 
 
                                 $DB->insert("UPDATE utilisateur SET avatar = ? WHERE id = ?", array(($nom . "." . $extensionUpload), $_SESSION['id']));
 
@@ -238,11 +231,11 @@ if(!empty($_POST)){
                         <?php
                             if(file_exists("public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']) && isset($_SESSION['avatar'])){
                         ?>
-                            <img src="<?= "public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']; ?> " alt="" width="120" class="sz-image"/>
+                            <img src="<?= "public/avatars/" . $_SESSION['id'] . "/" . $_SESSION['avatar']; ?> " width="120" class="sz-image"/>
                         <?php
                             }else{
                         ?>
-                            <img src="public/avatars/defaults/default.png" alt="" width="120" class="sz-image"/>
+                            <img src="public/avatars/defaults/default.png"  width="120" class="sz-image"/>
                         <?php
                             }
                         ?>
@@ -251,7 +244,7 @@ if(!empty($_POST)){
                             <label for="file" style="margin-bottom: 0px; margin-top: 5px; display:inline-flex">
                                 <input type="file" name="file" id="file" class="hide-upload" required/>
                                 <i class="fa fa-plus image-plus"></i>
-                                <input type="submit" value="Envoyer" name="avatar">
+                                <input type="submit" value="Envoyer" name="avatar" class="fa send-upload">
                             </label>      
                         </form>
                     </span>
@@ -259,7 +252,7 @@ if(!empty($_POST)){
                     <div style="border-top: 2px solid #ccc; margin-top: 20px; padding-top: 20px">
                         <form action="" method="post">
                             <label><b>Suprimer l'avatar</b></label>
-                            <input type="submit" value="Suprimer" name="avatar" class="fa trash-avatar">
+                            <input type="submit" value="Suprimer" name="dltav" class="fa trash-avatar">
                         </form>
                     </div>
                     <br>

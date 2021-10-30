@@ -50,8 +50,6 @@ if (!empty($_POST)) {
         }
 
 
-
-
         // vérification email
         if (empty($mail)) {
             $valid = false;
@@ -73,10 +71,6 @@ if (!empty($_POST)) {
                 $er_mail = "r";
             }
         }
-
-        
-
-
 
         // Vérification du mot de passe
         if(empty($password)) {
@@ -274,7 +268,7 @@ if (!empty($_POST)) {
                                 <br>
                             </section>
 
-                            <input type="submit" name="inscription" value="S'inscrire" class="btn btn-primary">
+                            <input type="submit" name="inscription" value="S'inscrire" class="btn btn-primary" style="text-align:center">
                         </form>
                     </div>
                 <br>
